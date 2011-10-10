@@ -25,7 +25,7 @@ Note: Not uploaded to rubygems yet (not until v1.0)
 
 == Usage
 
-  class User < 'MockedRecord'
+  class User < MockedRecord
     acts_as_audited
   end
 
