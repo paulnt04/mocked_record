@@ -1,9 +1,9 @@
-# mocked_record v1.0alpha
+= mocked_record v1.0alpha
 
 Mocked Record Generator using acts_as_audited for logs.
 Stores in memory as an object and does not store to database.
 
-## Installation
+== Installation
 
   gem install mocked_record
 
@@ -23,7 +23,7 @@ In config/routes.rb
 
 Note: Not uploaded to rubygems yet (not until v1.0)
 
-## Usage
+== Usage
 
   class User < 'MockedRecord'
     acts_as_audited
@@ -48,10 +48,10 @@ The additional argument is {:associated}. It is allowed only in the first two sy
 
 :associated still has issues. Use with caution (can delete actual records in edge cases).
 
-## License
+== License
 
 Released under MIT. See LICENSE.rdoc
 
-## Copyright
+== Copyright
 
 Copyright (c) 2011 Paul Panarese
