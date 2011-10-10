@@ -46,8 +46,6 @@ The additional argument is {:associated}. It is allowed only in the first two sy
   User.mock({:audit => Audit.find(1), :associated => true})
   User.mock({:id => 1, :version => 1, :associated => true})
 
-:associated still has issues. Will remove auditable_id from audits right now.
-
 You can also use the controller method and routes to view via
 http://<your_application_url>/:controller/deleted
 and individual records by
