@@ -22,7 +22,7 @@ Note: Not uploaded to rubygems yet (not until v1.0)
 
 Model.mock takes one of 3 arguments, with the addition of an additional argument.
 
-  User.mock({:audit => Audit.find(1)}) # Allows you to specify the specific audit version to mock
+  User.mock({:audit => Audit.find_by_auditable_type_and_auditable_id_and_version('User',1,1)}) # Allows you to specify the specific audit version to mock
   User.mock({:id => 1, :version => 1}) # Allows you to specify the id of the record and version
   User.mock(1) # Specify id of record and the latest version of record is mocked
 
