@@ -1,0 +1,41 @@
+# mocked_record v1.0alpha
+
+Mocked Record Generator using acts_as_audited for logs.
+Stores in memory as an object and does not store to database.
+
+## Installation
+
+  gem install mocked_record
+
+Note: Not uploaded to rubygems yet (not until v1.0)
+
+## Usage
+
+  class User < 'MockedRecord'
+    acts_as_audited
+  end
+
+  @user = User.create({:name => 'Test User', :email => 'test@example.com'}) # id = 1
+  @user.destroy
+  @record = User.mock(1)
+  @record # User(:name => 'Test User', :email => 'test@example.com', :id => 1)
+
+Model.mock takes one of 3 arguments, with the addition of an additional argument.
+
+  User.mock({:audit => Audit.find(1)}) # Allows you to specify the specific audit version to mock
+  User.mock({:id => 1, :version => 1}) # Allows you to specify the id of the record and version
+  User.mock(1) # Specify id of record and the latest version of record is mocked
+
+The last argument is {:associated}. It only is allowed in the first two syntax calls above.
+:associated tells MockedRecord to generate the associated records or not. By default it does not.
+
+  User.mock({:audit => Audit.find(1), :associated => true})
+  User.mock({:id => 1, :version => 1, :associated => true})
+
+## License
+
+Released under MIT. See LICENSE.rdoc
+
+## Copyright
+
+Copyright (c) 2011 Paul Panarese
