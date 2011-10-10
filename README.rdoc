@@ -8,13 +8,13 @@ Stores in memory as an object and does not store to database.
   gem install mocked_record
 
 For audited models, change inheretance of the model class to 'MockedRecord'
-  class User < 'MockedRecord'
+  class User < MockedRecord
     acts_as_audited
   end
 
 In the application controller add:
   class ApplicationController < ActionController::Base
-    extend mock_controller.rb
+    extend MockController
   end
 
 In config/routes.rb
