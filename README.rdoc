@@ -20,17 +20,19 @@ Note: Not uploaded to rubygems yet (not until v1.0)
   @record = User.mock(1)
   @record # User(:name => 'Test User', :email => 'test@example.com', :id => 1)
 
-Model.mock takes one of 3 arguments, with the addition of an additional argument.
+Model.mock takes one of 3 basic argument syntaxes, with the addition of an additional argument.
 
   User.mock({:audit => Audit.find_by_auditable_type_and_auditable_id_and_version('User',1,1)}) # Allows you to specify the specific audit version to mock
   User.mock({:id => 1, :version => 1}) # Allows you to specify the id of the record and version
   User.mock(1) # Specify id of record and the latest version of record is mocked
 
-The last argument is {:associated}. It only is allowed in the first two syntax calls above.
+The additional argument is {:associated}. It is allowed only in the first two syntaxes above.
 :associated tells MockedRecord to generate the associated records or not. By default it does not.
 
   User.mock({:audit => Audit.find(1), :associated => true})
   User.mock({:id => 1, :version => 1, :associated => true})
+
+:associated still has issues. Use with caution (can delete actual records in edge cases).
 
 ## License
 
