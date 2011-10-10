@@ -7,6 +7,20 @@ Stores in memory as an object and does not store to database.
 
   gem install mocked_record
 
+For audited models, change inheretance of the model class to 'MockedRecord'
+  class User < 'MockedRecord'
+    acts_as_audited
+  end
+
+In the application controller add:
+  class ApplicationController < ActionController::Base
+    extend mock_controller.rb
+  end
+
+In config/routes.rb
+  match ':controller/deleted', :action => 'deleted_index', :as => :deleted_items
+  match ':controller/deleted/:id', :action => 'deleted_show', :as => :deleted_item
+
 Note: Not uploaded to rubygems yet (not until v1.0)
 
 ## Usage
