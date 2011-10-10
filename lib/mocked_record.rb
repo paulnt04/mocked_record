@@ -1,7 +1,9 @@
-class MockedRecord < ActiveRecord
+class AuditedRecord < ActiveRecord
 
-  	def self.mock params
-	  begin
+  self.abstract_class = true
+
+  def self.mock params
+    begin
       mock = self.new
       if !params[:audit].blank? && params.class.to_s =~ /hash/i
         audit = params[:audit]
@@ -59,11 +61,11 @@ class MockedRecord < ActiveRecord
             if klass_results.blank? && !(association.macro.to_s =~ /has_and_belongs_to_many/)
                case association.macro.to_s
                  when /belongs_to/
-                   audits = Audit.find_by_auditable_type_and_auditable_id(association.klass.to_s,mock.send(association.primary_key_name))
+                   _audits = Audit.find_by_auditable_type_and_auditable_id(association.klass.to_s,mock.send(association.primary_key_name))
                  when /(has_one|has_many)/
-                   audits = Audit.find_all_by_auditable_type(association.klass.to_s).select{|audit| (audit.audited_changes[association.primary_key_name] == mock.id) || ((audit.audited_changes[association.primary_key_name][1] == mock.id) rescue false)}
+                   _audits = Audit.find_all_by_auditable_type(association.klass.to_s).select{|_audit| (_audit.audited_changes[association.primary_key_name] == mock.id) || ((_audit.audited_changes[association.primary_key_name][1] == mock.id) rescue false)}
                end
-               assoc_object = audits.inject([]){|result,audit| result << association.klass.mock({:audit => audit, :associated => false}) unless result.find{|record| record.id == audit.auditable_id}; result}
+               assoc_object = _audits.inject([]){|result,_audit| result << association.klass.mock({:audit => _audit, :associated => false}) unless result.find{|record| record.id == _audit.auditable_id}; result}
                if association.macro.to_s =~ /has_one/
                  assoc_object = assoc_object[0]
                end
@@ -88,8 +90,12 @@ class MockedRecord < ActiveRecord
     end
   end
 
-  def self.save
-    raise "MockedRecord: Method undefined."
+  def save
+    if self.mocked_record?
+      raise TypeError, "MockedRecord: Method undefined."
+    else
+      super
+    end
   end
 
   def last_audit format="txt"
@@ -108,4 +114,15 @@ class MockedRecord < ActiveRecord
     (self.new_record? && self.id) ? true : false
   end
 
+  def restore
+
+  end
+
+  def self.restore(params)
+
+  end
+
+  def revert(params)
+
+  end
 end
